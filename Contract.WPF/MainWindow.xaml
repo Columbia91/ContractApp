@@ -6,17 +6,18 @@
         xmlns:local="clr-namespace:Contract.WPF"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="542.479" Width="863.347" 
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Window.Resources>
-        <Style TargetType="TextBlock">
+        <Style TargetType="TextBox" x:Key="baseTextBox">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="TextAlignment" Value="Right"/>
             <Setter Property="Height" Value="25" />
-            <Setter Property="Width" Value="80" />
-            <Setter Property="Margin" Value="25 5 25 5" />
         </Style>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="200*"/>
+            <RowDefinition Height="200"/>
             <RowDefinition Height="200*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -26,26 +27,77 @@
         <StackPanel Grid.Column="0">
             <Label Height="Auto">
                 <Grid>
-                    <TextBox TextAlignment="Right" Name="ownerTextBox" Margin="50,0,0,-10" HorizontalAlignment="Left" Width="112"/>
-                    <TextBlock Text="Арендодатель" Margin="193,20,-198,-10" Width="Auto"/>
-                    <TextBox TextAlignment="Right" Name="renterTextBox" Margin="50,67,0,-67"/>
-                    <TextBlock Text="Арендатор" Margin="193,77,-198,-67" Width="Auto"/>
-                    <TextBox TextAlignment="Right" Margin="50,130,0,-130"/>
-                    <TextBlock Text="Срок аренды (мес)" Margin="193,140,-198,-130" Name="leaseTermTextBlock" Width="Auto"/>
+                    <TextBox Name="ownerTextBox" 
+                             Style="{StaticResource baseTextBox}" Margin="34,20,-53,-10" Width="Auto"/>
+                    <TextBlock Text="Арендодатель" Margin="271,20,-176,-10" Width="Auto"/>
+                    <TextBox Name="renterTextBox" Margin="34,77,-53,-67"
+                             Style="{StaticResource baseTextBox}" Width="Auto"/>
+                    <TextBlock Text="Арендатор" Margin="271,77,-176,-67" Width="Auto"/>
+                    <TextBox Name="leaseTermTextBox" Margin="34,140,-53,-130"
+                             Style="{StaticResource baseTextBox}" Width="Auto"/>
+                    <TextBlock Text="Срок аренды (мес)" Margin="271,140,-176,-130" Width="Auto"/>
                 </Grid>
             </Label>
         </StackPanel>
         <StackPanel Grid.Column="1">
             <Label Height="Auto">
                 <Grid>
-                    <TextBox TextAlignment="Right" Margin="50,0,10,-10"/>
-                    <TextBlock Text="Дата" Name="dateTextBlock" Margin="199,20,-188,-10" Width="Auto"/>
-                    <TextBox TextAlignment="Right" Margin="50,67,10,-67"/>
-                    <TextBlock Text="Адрес" Name="addressTextBlock" Margin="199,77,-232,-67" Width="Auto"/>
-                    <TextBox TextAlignment="Right" Margin="50,130,10,-130"/>
-                    <TextBlock Text="Сумма к оплате (тг)" Margin="199,140,-120,-130" Name="paymentTextBlock" Width="Auto"/>
+                    <TextBox Name="dateTextBox" Margin="36,20,-100,-10"
+                             Style="{StaticResource baseTextBox}"/>
+                    <TextBlock Text="Дата" Margin="272,20,-243,-10" Width="Auto"/>
+                    <TextBox Name="addressTextBox" Margin="36,77,-100,-67"
+                             Style="{StaticResource baseTextBox}"/>
+                    <TextBlock Text="Адрес" Margin="272,77,-243,-67" Width="124" HorizontalAlignment="Left"/>
+                    <TextBox Name="paymentTextBox" Margin="36,140,-100,-130"
+                             Style="{StaticResource baseTextBox}"/>
+                    <TextBlock Text="Сумма к оплате (тг)" Margin="272,140,-243,-130" Width="Auto"/>
                 </Grid>
             </Label>
         </StackPanel>
+        <Grid Grid.ColumnSpan="2" Grid.Row ="1">
+            <DocumentViewer x:Name="documentViewer">
+                <FixedDocument>
+                    <PageContent>
+                        <FixedPage>
+                            <Grid>
+                                <Label HorizontalAlignment="Center" Margin="356,0,340,175" Padding="5"
+               FontSize="18" Width="159" FontWeight="Bold">Договор аренды</Label>
+                                <Label FontSize="16" Margin="40,26,311,158">г. Астана</Label>
+                                <TextBox Text="{Binding Path=Text, ElementName=dateTextBox, Mode=OneWay}" 
+                    FontSize="16" TextAlignment="Right" 
+                     Margin="619,26,72,247"/>
+                                <Label FontSize="16" Margin="788,26,42,247">г.</Label>
+                                <TextBlock FontSize="14"
+                Padding="30 5" Margin="0,69,0,0">"Арендодатель", с одной стороны, в лице
+                <TextBox Text="{Binding Path=Text, ElementName=ownerTextBox, Mode=OneWay}" 
+                         Width="400" TextAlignment="Center" FontStyle="Italic"/>
+                и "Арендатор"<LineBreak/> 
+                <TextBox Text="{Binding Path=Text, ElementName=renterTextBox, Mode=OneWay}" 
+                         Width="300" TextAlignment="Center" FontStyle="Italic"/> ,
+                с другой стороны заключили настоящий договор о нижеследующем:
+                                </TextBlock>
+                                <Label HorizontalAlignment="Center"
+                   FontSize="14" FontWeight="Bold" 
+                   Margin="356,155,349,55" Width="150">Предмет договора</Label>
+                                <TextBlock FontSize="14"
+                Padding="30 5" Margin="0,188,0,0">
+                Арендодатель предоставляет Арендатору в пользование сроком на
+                <TextBox Text="{Binding Path=Text, ElementName=leaseTermTextBox, Mode=OneWay}" 
+                         Width="140" TextAlignment="Center" FontStyle="Italic"/> 
+                месяцев квартиру по адресу:<LineBreak/>
+                <TextBox Text="{Binding Path=Text, ElementName=addressTextBox, Mode=OneWay}"
+                    Width="280" TextAlignment="Center" FontStyle="Italic"/> 
+                характеристика которой приведена в акте 
+                сдачи квартиры. По соглашению <LineBreak/> сторон, договором устанавливается плата за 
+                аренду квартиры в размере
+                <TextBox Text="{Binding Path=Text, ElementName=paymentTextBox, Mode=OneWay}"
+                    Width="250" TextAlignment="Center" FontStyle="Italic"/> тенге.
+                                </TextBlock>
+                            </Grid>
+                        </FixedPage>
+                    </PageContent>
+                </FixedDocument>
+            </DocumentViewer>
+        </Grid>
     </Grid>
 </Window>
